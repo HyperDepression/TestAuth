@@ -12,15 +12,15 @@ export default async (req, res) => {
         data = await db.user.create({ data: { login, password } });
     } catch (error) {
         console.error(error);
-        return res.status(422).json({ message: 'User is already registered' });
+        return res.status(422).json({ answer: 'user_exists' });
     }
 
     try {
-        await redis.set(data.login, data.password,'EX', lifetime);
+        await redis.set(data.login, data.password, 'EX', lifetime);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Internal error' });
+        return res.status(500).json({ answer: 'error' });
     }
 
-    return res.status(201).json();
+    return res.status(201).json({ answer: "registration_success" });
 }
