@@ -11,7 +11,7 @@ export default async (req, res) => {
         const record = await redis.get(login);
         if (record) {
             if (password !== record) return res.status(422).json({ answer: "invalid_password" });
-            else return res.status(204).json({
+            else return res.status(200).json({
                 answer: "success",
                 source: "cache"
             });
